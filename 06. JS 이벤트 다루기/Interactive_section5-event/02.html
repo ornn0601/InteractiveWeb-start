@@ -10,8 +10,9 @@
         .stage {
             overflow: hidden;
             position: relative;
-            width: 100vw;
+            width: 100%;
             height: 75vw;
+            max-height: 100vh;
             background: #fff000;
         }
         @keyframes moving {
@@ -19,7 +20,7 @@
                 transform: translateX(0);
             }
             to {
-                transform: translateX(90vw);
+                transform: translateX(80vw);
             }
         }
         .ilbuni {
@@ -59,7 +60,33 @@
     </div>
 
     <script>
-        // 직접 타이핑 해보세요
+        
+        (function() {
+            const stage = document.querySelector('.stage');
+
+            // const ilbuniGroup = document.querySelectorAll('.ilbuni');
+            
+            // function clickHandler() {
+            //     console.log(this);
+            //     // stage.removeChild(this);
+            //     this.parentNode.removeChild(this);
+            // }
+            
+            // for (let i = 0; i < ilbuniGroup.length; i++) {
+            //     ilbuniGroup[i].addEventListener('click', clickHandler);
+            // }
+
+            /* 이벤트 위임 */
+             function clickHandler(e) {
+                if (e.target.classList.contains('ilbuni')) {
+                    stage.removeChild(e.target);
+                }
+            }
+
+            stage.addEventListener('click', clickHandler);
+
+        })();
+
     </script>
 </body>
 </html>
