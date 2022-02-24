@@ -1,0 +1,60 @@
+body {
+  height: 500vh;
+  background: yellow;
+}
+
+.world {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; 
+  perspective: 1000px; /* 3d로 만들기 */
+}
+
+.stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform-style: preserve-3d; /* 3d 설정이 자식들까지 전달되도록 설정 */
+}
+.house {
+  width: 100vw;
+  height: 100vh;
+  transform: translateZ(-490vw);
+  transform-style: preserve-3d;
+}
+
+.wall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255,255,255,.8);
+}
+.wall-left {
+  width: 1000vw;
+  transform: rotateY(90deg) translateZ(-500vw);;
+}
+.wall-right {
+  width: 1000vw;
+  transform: rotateY(90deg) translateZ(-400vw);
+}
+.wall-front-a { transform: translateZ(300vw); }
+.wall-front-b { transform: translateZ(50vw); }
+.wall-front-c { transform: translateZ(-200vw); }
+.wall-front-d { transform: translateZ(-500vw); }
+
+.wall-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.wall-title {
+  font-size: 5rem;
+}
+
