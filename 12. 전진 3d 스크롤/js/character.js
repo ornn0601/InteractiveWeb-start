@@ -33,7 +33,10 @@ function Character(info) {
   this.scrollState = false; // 스크롤 상태 체크
   this.lastScrollTop = 0; // 바로 이전 스크롤 위치
   this.xPos = info.xPos;
-  this.speed = 0.3; // 스피드 값 만큼씩 이동
+  this.speed = info.speed; // 스피드 값 만큼씩 이동
+  this.direction; // 방향
+  this.runningState = false; // 좌우 이동 중인지 아닌지
+  this.rafid;
   this.init();
 }
 /* es6 : `<code>`백틱을 톡해 html 작성 가능 */
@@ -82,23 +85,65 @@ Character.prototype = {
 
     // 키코드 값을 통해 이벤트 제공
     window.addEventListener('keydown', function(e) {
+      if (self.runningState) return;  
+
       if (e.keyCode == 37) {
         // 왼쪽
+        self.direction = 'left';
         self.mainElem.setAttribute('data-direction', 'left');
         self.mainElem.classList.add('running');
-        self.xPos -= self.speed;
-        self.mainElem.style.left = self.xPos + '%';
+        self.run(self);
+        self.runningState = true;
 
       } else if (e.keyCode == 39) {
         // 오른쪽
+        self.direction = 'right';
         self.mainElem.setAttribute('data-direction', 'right');
         self.mainElem.classList.add('running');
+        self.run(self);
+        self.runningState = true;
       }
     });
 
     window.addEventListener('keyup', function(e) {
       self.mainElem.classList.remove('running');
+      this.cancelAnimationFrame(self.rafId);
+      self.runningState = false;
     });
-  }
+  },
+  run: function(self) {
+    // const self = this;
 
-}
+    if (self.direction == 'left') {
+      self.xPos -= self.speed;
+    } else if (self.direction == 'right') {
+      self.xPos += self.speed;
+    }
+
+    // 화면 범위 제어
+    if (self.xPos < 2) {
+      self.xPos = 2;
+    }
+
+    if (self.xPos > 88) {
+      self.xPos = 88;
+    }
+
+    self.mainElem.style.left = self.xPos + '%';
+
+    self.rafId = requestAnimationFrame(function() {
+      self.run(self);
+    });
+
+    // 두 가지 방법으로 해결을 해볼께요. 먼저
+    // 1. 함수의 매개변수로 전달해서 this를 살리는 방법
+    // requestAnimationFrame(function() {
+    //   self.run();
+    // });
+
+    // 2. 바인드를 이용한 방법
+    // bind(this) 지정
+    // 과거엔 성능상 문제로 사용을 안함. 하지만 최근엔 성능이 개선되서 사용됨
+    // self.rafId = requestAnimationFrame(self.run.bind(self));
+  }
+};

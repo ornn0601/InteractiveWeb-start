@@ -202,6 +202,8 @@ body[data-char='ragirl'] {
 .character.running .character-leg-right { animation: ani-running-leg 0.2s alternate infinite linear; }
 .character.running .character-leg-left { animation: ani-running-leg 0.2s alternate-reverse infinite linear; }
 .character.running .character-arm { animation: ani-running-arm 0.2s alternate infinite linear; }
+
+/* 방향키 */
 body[data-char='ragirl'] .character {
   width: 12vw;
   height: calc(12vw * 1.4135);
